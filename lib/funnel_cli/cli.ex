@@ -56,21 +56,17 @@ defmodule FunnelCli.CLI do
 
   defp process({:register, host, name}) do
     FunnelCli.Client.register(host)
-      |> write_register(name, host)
-  end
-
-  defp write_register(response, name, host) do
-    configure(response["token"], name, host)
+      |> configure(name, host)
       |> serialize
       |> write_to_fs(name)
       |> log_out
   end
 
-  defp configure(token, name, host) do
+  defp configure(response, name, host) do
     configuration = HashDict.new
     connection    = HashDict.new
     connection = Dict.put(connection, :host, host)
-    connection = Dict.put(connection, :token, token)
+    connection = Dict.put(connection, :token, response["token"])
     connection = Dict.put(connection, :name, name)
     Dict.put(configuration, :connection, connection)
   end
