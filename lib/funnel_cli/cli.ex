@@ -3,6 +3,8 @@ defmodule FunnelCli.CLI do
   Command line interface to `FunnelCli
   """
 
+  alias FunnelCli.Configuration
+
   @doc """
   FunnelCli.CLI main entry point
   """
@@ -56,39 +58,13 @@ defmodule FunnelCli.CLI do
 
   defp process({:register, host, name}) do
     FunnelCli.Client.register(host)
-      |> configure(name, host)
-      |> serialize
-      |> write_to_fs(name)
+      |> Configuration.write(host, name)
       |> log_out
-  end
-
-  defp configure(response, name, host) do
-    configuration = HashDict.new
-    connection    = HashDict.new
-    connection = Dict.put(connection, :host, host)
-    connection = Dict.put(connection, :token, response["token"])
-    connection = Dict.put(connection, :name, name)
-    Dict.put(configuration, :connection, connection)
-  end
-
-  defp serialize(configuration) do
-    {:ok, body} = JSEX.encode(configuration)
-    body
-  end
-
-  defp write_to_fs(body, name) do
-    path = configuration_path(name)
-    File.write!(path, body)
-    path
   end
 
   defp log_out(path) do
     "%{green}File written to #{path}"
       |> IO.ANSI.escape(true)
       |> IO.puts
-  end
-
-  defp configuration_path(name) do
-    "#{Path.expand("~")}/.funnel_#{name}_configuration.json"
   end
 end
