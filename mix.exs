@@ -12,7 +12,7 @@ defmodule FunnelCli.Mixfile do
 
   # Configuration for the OTP application
   def application do
-    [mod: { FunnelCli, [] }]
+    []
   end
 
   # Returns the list of dependencies in the format:
