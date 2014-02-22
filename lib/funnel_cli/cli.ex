@@ -34,6 +34,12 @@ defmodule FunnelCli.CLI do
       iex> FunnelCli.CLI.parse_args(["register", "http://localhost:4000", "-name", "chatgris"])
       {:register, "http://localhost:4000", "chatgris"}
 
+      iex> FunnelCli.CLI.parse_args(["index", "twitter", "body"])
+      {:index, "twitter", "body", "funnel"}
+
+      iex> FunnelCli.CLI.parse_args(["index", "twitter", "body", "-name", "chatgris"])
+      {:index, "twitter", "body", "chatgris"}
+
   """
   def parse_args(argv) do
     parse = OptionParser.parse(argv, switches: [help: :boolean],
@@ -41,6 +47,7 @@ defmodule FunnelCli.CLI do
     )
     case parse do
       {options, ["register", host], _}             -> {:register, host, options[:name] || "funnel"}
+      {options, ["index", index_name, body], _}    -> {:index, index_name, body, options[:name] || "funnel"}
       _                                            -> :help
     end
   end
@@ -52,6 +59,7 @@ defmodule FunnelCli.CLI do
     Usage:
 
     funnel_cli register http://funnel.dev
+    funnel_cli index twitter index_configuration_in_json
     """
     System.halt(0)
   end
@@ -61,6 +69,8 @@ defmodule FunnelCli.CLI do
       |> Configuration.write(host, name)
       |> log_out
   end
+
+  defp process({:index, index_name, body, name}), do: IO.puts "Noop"
 
   defp log_out(path) do
     "%{green}File written to #{path}"
