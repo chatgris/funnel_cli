@@ -87,7 +87,9 @@ defmodule FunnelCli.CLI do
   end
 
   defp log_out(path) do
-    IO.puts "File written to #{path}"
+    "%{green}File written to #{path}"
+      |> IO.ANSI.escape(true)
+      |> IO.puts
   end
 
   defp configuration_path(name) do
