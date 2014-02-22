@@ -5,6 +5,8 @@ defmodule FunnelCli.Mixfile do
     [ app: :funnel_cli,
       version: "0.0.1",
       elixir: "~> 0.12.4",
+      escript_main_module: FunnelCli,
+      escript_embed_elixir: true,
       deps: deps ]
   end
 
