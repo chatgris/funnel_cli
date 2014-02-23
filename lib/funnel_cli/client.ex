@@ -18,7 +18,17 @@ defmodule FunnelCli.Client do
       |> process_response_body
   end
 
+  def index(body, connection) do
+    HTTPotion.post("#{connection["host"]}/index", body, headers_with_auth(connection))
+      |> get_body
+      |> process_response_body
+  end
+
   defp get_body(response) do
     response.body
+  end
+
+  defp headers_with_auth(connection) do
+    Dict.put process_request_headers, "Authorization", connection["token"]
   end
 end

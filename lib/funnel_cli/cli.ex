@@ -67,14 +67,30 @@ defmodule FunnelCli.CLI do
   defp process({:register, host, name}) do
     FunnelCli.Client.register(host)
       |> Configuration.write(host, name)
-      |> log_out
+      |> log_out(:register)
   end
 
-  defp process({:index, index_name, body, name}), do: IO.puts "Noop"
+  defp process({:index, index_name, body, name}) do
+    configuration = Configuration.read(name)
+    FunnelCli.Client.index(body, configuration["connection"])
+      |> write_index(configuration, index_name)
+      |> log_out(:index)
+  end
 
-  defp log_out(path) do
+  defp log_out(path, :register) do
     "%{green}File written to #{path}"
       |> IO.ANSI.escape(true)
       |> IO.puts
+  end
+
+  defp log_out(index, :index) do
+    "%{green}#{index[:name]} registered as #{index[:id]}"
+      |> IO.ANSI.escape(true)
+      |> IO.puts
+  end
+
+  defp write_index(response, configuration, index_name) do
+    [name: index_name, id: response["index_id"]]
+      |> Configuration.add_index(configuration)
   end
 end

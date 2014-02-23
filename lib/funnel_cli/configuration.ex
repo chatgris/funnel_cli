@@ -22,6 +22,14 @@ defmodule FunnelCli.Configuration do
       |> unserialize
   end
 
+  def add_index(index, configuration) do
+    indexes = configuration[:indexes] || []
+    Dict.put(configuration, :indexes, [index | indexes])
+      |> serialize
+      |> write_to_fs(configuration["connection"]["name"])
+    index
+  end
+
   defp configuration_path(name) do
     "#{Path.expand("~")}/.funnel_#{name}_configuration.json"
   end
