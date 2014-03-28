@@ -51,6 +51,9 @@ defmodule FunnelCli.CLI do
 
       iex> FunnelCli.CLI.parse_args(["queries", "twitter", "-name", "chatgris"])
       {:queries, "twitter", "chatgris"}
+
+      iex> FunnelCli.CLI.parse_args(["listen"])
+      {:listen}
   """
   def parse_args(argv) do
     parse = OptionParser.parse(argv, switches: [help: :boolean],
@@ -61,6 +64,7 @@ defmodule FunnelCli.CLI do
       {options, ["index", index_name, body], _}    -> {:index, index_name, body, options[:name] || "funnel"}
       {options, ["queries", index_name], _}        -> {:queries, index_name, options[:name] || "funnel"}
       {options, ["query", index_name, body], _}    -> {:query, index_name, body, options[:name] || "funnel"}
+      {_options, ["listen"], _}                    -> {:listen}
       _                                            -> :help
     end
   end
