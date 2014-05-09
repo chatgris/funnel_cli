@@ -62,17 +62,16 @@ defmodule FunnelCli.CLI do
       {:push, "twitter", "body", "name"}
   """
   def parse_args(argv) do
-    parse = OptionParser.parse(argv, switches: [help: :boolean],
-                                     aliases:  [h: :help, n: :name]
+    parse = OptionParser.parse(argv, aliases: [h: :help, n: :name]
     )
     case parse do
-      {options, ["register", host], _}             -> {:register, host, options[:name] || "funnel"}
-      {options, ["index", index_name, body], _}    -> {:index, index_name, body, options[:name] || "funnel"}
-      {options, ["queries", index_name], _}        -> {:queries, index_name, options[:name] || "funnel"}
-      {options, ["query", index_name, body], _}    -> {:query, index_name, body, options[:name] || "funnel"}
-      {_options, ["listen"], _}                    -> {:listen}
-      {options, ["push", index_name, body], _}     -> {:push, index_name, body, options[:name] || "funnel"}
-      _                                            -> :help
+      {options, ["register", host], switches}             -> {:register, host, options[:name] || switches[:name] || "funnel"}
+      {options, ["index", index_name, body], switches}    -> {:index, index_name, body, options[:name] || switches[:name] || "funnel"}
+      {options, ["queries", index_name], switches}        -> {:queries, index_name, options[:name] || switches[:name] || "funnel"}
+      {options, ["query", index_name, body], switches}    -> {:query, index_name, body, options[:name] || switches[:name] || "funnel"}
+      {options, ["listen"], _switches}                    -> {:listen}
+      {options, ["push", index_name, body], switches}     -> {:push, index_name, body, options[:name] || switches[:name] || "funnel"}
+      _                                                   -> :help
     end
   end
 
