@@ -30,6 +30,10 @@ defmodule FunnelCli.Configuration do
     index
   end
 
+  def find_index(name, configuration) do
+    Enum.find(configuration["indexes"], fn(index) -> index["name"] == name end)
+  end
+
   defp configuration_path(name) do
     "#{Path.expand("~")}/.funnel_#{name}_configuration.json"
   end
