@@ -103,12 +103,18 @@ defmodule FunnelCli.CLI do
 
   defp process({:query, index_name, body, name}) do
     configuration = Configuration.read(name)
-    index = case Configuration.find_index(index_name, configuration) do
-      nil   -> log_out("No index found", :error)
-      index -> index
-    end
+    index = index_from_configuration(index_name, configuration)
+
     FunnelCli.Client.query(body, index["id"], configuration["connection"])
       |> log_out(:query, index_name)
+  end
+
+  defp process({:queries, index_name, name}) do
+    configuration = Configuration.read(name)
+    index = index_from_configuration(index_name, configuration)
+
+    FunnelCli.Client.queries(index["id"], configuration["connection"])
+      |> log_out(:queries, index_name)
   end
 
   defp log_out(path, :register) do
@@ -136,8 +142,28 @@ defmodule FunnelCli.CLI do
       |> IO.puts
   end
 
+  defp log_out(queries, :queries, index_name) do
+    "%{green}#{index_name} queries:"
+      |> IO.ANSI.escape(true)
+      |> IO.puts
+    Enum.each(queries, &log_out_query/1)
+  end
+
+  defp log_out_query(query) do
+    "%{cyan}  * #{query["query_id"]}"
+      |> IO.ANSI.escape(true)
+      |> IO.puts
+  end
+
   defp write_index(response, configuration, index_name) do
     [name: index_name, id: response["index_id"]]
       |> Configuration.add_index(configuration)
+  end
+
+  defp index_from_configuration(index_name, configuration) do
+    case Configuration.find_index(index_name, configuration) do
+      nil   -> log_out("No index found", :error)
+      index -> index
+    end
   end
 end

@@ -30,6 +30,12 @@ defmodule FunnelCli.Client do
       |> process_response_body
   end
 
+  def queries(index_id, connection) do
+    HTTPotion.get("#{connection["host"]}/index/#{index_id}/queries", headers_with_auth(connection))
+      |> get_body
+      |> process_response_body
+  end
+
   defp get_body(response) do
     response.body
   end
