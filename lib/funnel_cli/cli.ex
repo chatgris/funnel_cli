@@ -62,8 +62,8 @@ defmodule FunnelCli.CLI do
       {:push, "twitter", "body", "name"}
   """
   def parse_args(argv) do
-    parse = OptionParser.parse(argv, aliases: [h: :help, n: :name]
-    )
+    parse = OptionParser.parse(argv, aliases: [h: :help, n: :name])
+
     case parse do
       {options, ["register", host], switches}             -> {:register, host, options[:name] || switches[:name] || "funnel"}
       {options, ["index", index_name, body], switches}    -> {:index, index_name, body, options[:name] || switches[:name] || "funnel"}
@@ -101,6 +101,7 @@ defmodule FunnelCli.CLI do
 
   defp process({:index, index_name, body, name}) do
     configuration = Configuration.read(name)
+
     FunnelCli.Client.index(body, configuration["connection"])
       |> write_index(configuration, index_name)
       |> log_out(:index)
