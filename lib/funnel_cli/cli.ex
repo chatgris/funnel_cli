@@ -82,7 +82,8 @@ defmodule FunnelCli.CLI do
     Usage:
 
     funnel_cli register http://funnel.dev
-    funnel_cli index twitter index_configuration_in_json
+    funnel_cli index index_name index_configuration_in_json
+    funnel_cli query index_name query_configuration_in_json
     """
     System.halt(0)
   end
@@ -100,6 +101,16 @@ defmodule FunnelCli.CLI do
       |> log_out(:index)
   end
 
+  defp process({:query, index_name, body, name}) do
+    configuration = Configuration.read(name)
+    index = case Configuration.find_index(index_name, configuration) do
+      nil   -> log_out("No index found", :error)
+      index -> index
+    end
+    FunnelCli.Client.query(body, index["id"], configuration["connection"])
+      |> log_out(:query, index_name)
+  end
+
   defp log_out(path, :register) do
     "%{green}File written to #{path}"
       |> IO.ANSI.escape(true)
@@ -108,6 +119,19 @@ defmodule FunnelCli.CLI do
 
   defp log_out(index, :index) do
     "%{green}#{index[:name]} registered as #{index[:id]}"
+      |> IO.ANSI.escape(true)
+      |> IO.puts
+  end
+
+  defp log_out(message, :error) do
+    "%{red}#{message}"
+      |> IO.ANSI.escape(true)
+      |> IO.puts
+    System.halt(1)
+  end
+
+  defp log_out(query, :query, index_name) do
+    "%{green}New query added as #{query["query_id"]} to #{index_name} index."
       |> IO.ANSI.escape(true)
       |> IO.puts
   end
