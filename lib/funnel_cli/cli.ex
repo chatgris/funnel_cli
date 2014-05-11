@@ -69,7 +69,7 @@ defmodule FunnelCli.CLI do
       {options, ["index", index_name, body], switches}    -> {:index, index_name, body, options[:name] || switches[:name] || "funnel"}
       {options, ["queries", index_name], switches}        -> {:queries, index_name, options[:name] || switches[:name] || "funnel"}
       {options, ["query", index_name, body], switches}    -> {:query, index_name, body, options[:name] || switches[:name] || "funnel"}
-      {options, ["listen"], _switches}                    -> {:listen}
+      {_options, ["listen"], _switches}                    -> {:listen}
       {options, ["push", index_name, body], switches}     -> {:push, index_name, body, options[:name] || switches[:name] || "funnel"}
       _                                                   -> :help
     end
