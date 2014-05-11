@@ -81,9 +81,14 @@ defmodule FunnelCli.CLI do
 
     Usage:
 
-    funnel_cli register http://funnel.dev
-    funnel_cli index index_name index_configuration_in_json
-    funnel_cli query index_name query_configuration_in_json
+      * funnel_cli register http://funnel.dev
+      * funnel_cli index index_name index_configuration_in_json
+      * funnel_cli query index_name query_configuration_in_json
+      * funnel_cli queries index_name
+
+    Option:
+
+      * `-name`: Select a configuration name. Aliased as `-n`
     """
     System.halt(0)
   end
