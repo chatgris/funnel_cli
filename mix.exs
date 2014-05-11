@@ -18,7 +18,7 @@ defmodule FunnelCli.Mixfile do
   defp deps do
     [
       { :httpotion,   github: "myfreeweb/httpotion" },
-      { :jsex,        github: "talentdeficit/jsex" }
+      { :jsex,        '~> 2.0' }
     ]
   end
 end
