@@ -2,7 +2,7 @@
 # FunnelCli
 
 FunnelCli is a command line tool build to ease the development of the [Funnel
-Streamin API](https://github.com/AF83/funnel).
+Streaming API](https://github.com/AF83/funnel).
 
 
 ## Command
