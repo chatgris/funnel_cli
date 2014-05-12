@@ -85,6 +85,7 @@ defmodule FunnelCli.CLI do
       * funnel_cli index index_name index_configuration_in_json
       * funnel_cli query index_name query_configuration_in_json
       * funnel_cli queries index_name
+      * funnel_cli push index_name document_in_json
 
     Option:
 
@@ -123,6 +124,14 @@ defmodule FunnelCli.CLI do
       |> log_out(:queries, index_name)
   end
 
+  defp process({:push, index_name, body, name}) do
+    configuration = Configuration.read(name)
+    index = index_from_configuration(index_name, configuration)
+
+    FunnelCli.Client.push(index["id"], body, configuration["connection"])
+      |> log_out(:push, index_name)
+  end
+
   defp log_out(path, :register) do
     "%{green}File written to #{path}"
       |> out
@@ -147,6 +156,11 @@ defmodule FunnelCli.CLI do
     "%{green}#{index_name} queries:"
       |> out
     Enum.each(queries, &log_out_query/1)
+  end
+
+  defp log_out("", :push, index_name) do
+    "%{green}Document added to #{index_name} index."
+      |> out
   end
 
   defp log_out_query(query) do
