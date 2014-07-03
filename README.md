@@ -4,6 +4,8 @@
 FunnelCli is a command line tool build to ease the development of the [Funnel
 Streaming API](https://github.com/AF83/funnel).
 
+Elixir `v0.14.2` is required.
+
 
 ## Command
 
