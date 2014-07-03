@@ -4,7 +4,7 @@ defmodule FunnelCli.Mixfile do
   def project do
     [ app: :funnel_cli,
       version: "0.0.1",
-      elixir: "~> 0.13",
+      elixir: "~> 0.14",
       escript_main_module: FunnelCli,
       escript_embed_elixir: true,
       deps: deps ]
@@ -18,7 +18,7 @@ defmodule FunnelCli.Mixfile do
   defp deps do
     [
       { :httpotion,   github: "myfreeweb/httpotion" },
-      { :jsex,        github: "talentdeficit/jsex", branch: "develop" }
+      { :jsex,        "~> 2.0" }
     ]
   end
 end
