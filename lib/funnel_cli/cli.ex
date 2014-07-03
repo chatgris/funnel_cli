@@ -31,31 +31,31 @@ defmodule FunnelCli.CLI do
       iex> FunnelCli.CLI.parse_args(["register", "http://localhost:4000", "-n", "chatgris"])
       {:register, "http://localhost:4000", "chatgris"}
 
-      iex> FunnelCli.CLI.parse_args(["register", "http://localhost:4000", "-name", "chatgris"])
+      iex> FunnelCli.CLI.parse_args(["register", "http://localhost:4000", "--name", "chatgris"])
       {:register, "http://localhost:4000", "chatgris"}
 
       iex> FunnelCli.CLI.parse_args(["index", "twitter", "body"])
       {:index, "twitter", "body", "funnel"}
 
-      iex> FunnelCli.CLI.parse_args(["index", "twitter", "body", "-name", "chatgris"])
+      iex> FunnelCli.CLI.parse_args(["index", "twitter", "body", "--name", "chatgris"])
       {:index, "twitter", "body", "chatgris"}
 
       iex> FunnelCli.CLI.parse_args(["query", "twitter", "body"])
       {:query, "twitter", "body", "funnel"}
 
-      iex> FunnelCli.CLI.parse_args(["query", "twitter", "body", "-name", "chatgris"])
+      iex> FunnelCli.CLI.parse_args(["query", "twitter", "body", "--name", "chatgris"])
       {:query, "twitter", "body", "chatgris"}
 
       iex> FunnelCli.CLI.parse_args(["queries", "twitter"])
       {:queries, "twitter", "funnel"}
 
-      iex> FunnelCli.CLI.parse_args(["queries", "twitter", "-name", "chatgris"])
+      iex> FunnelCli.CLI.parse_args(["queries", "twitter", "--name", "chatgris"])
       {:queries, "twitter", "chatgris"}
 
       iex> FunnelCli.CLI.parse_args(["push", "twitter", "body"])
       {:push, "twitter", "body", "funnel"}
 
-      iex> FunnelCli.CLI.parse_args(["push", "twitter", "body", "-name", "name"])
+      iex> FunnelCli.CLI.parse_args(["push", "twitter", "body", "--name", "name"])
       {:push, "twitter", "body", "name"}
   """
   def parse_args(argv) do
