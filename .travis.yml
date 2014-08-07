@@ -9,5 +9,3 @@ before_install:
   - export MIX_ENV=test
   - mix local.hex --force
 script: mix test
-notifications:
-  irc: "irc.freenode.net#funnel"
