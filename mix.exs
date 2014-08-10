@@ -12,7 +12,7 @@ defmodule FunnelCli.Mixfile do
 
   # Configuration for the OTP application
   def application do
-    [ applications: [:httpoison, :jsex]]
+    [ applications: [:httpoison, :jsex, :funnel]]
   end
 
   defp deps do
