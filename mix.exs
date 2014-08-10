@@ -17,7 +17,7 @@ defmodule FunnelCli.Mixfile do
 
   defp deps do
     [
-      {:httpoison, "~> 0.3"},
+      {:funnel,               "~> 0.1"},
       {:hackney,   github: "benoitc/hackney", tag: "0.13.0" },
       {:jsex,      "~> 2.0" }
     ]
